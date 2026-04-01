@@ -3,7 +3,7 @@
 use strict; use warnings;
 our $tests;
 BEGIN { ++$INC{'tests.pm'} }
-sub tests'VERSION { $tests += pop };
+sub tests::VERSION { $tests += pop };
 use Test::More;
 plan tests => $tests;
 
@@ -13,7 +13,7 @@ use_ok 'CSS::DOM::Rule::FontFace',;
 
 require CSS::DOM;
 my $rule = (
-	my $ss = CSS::DOM'parse(
+	my $ss = CSS::DOM::parse(
 		'@font-face { font-family: "foo";src:url(bar) }'
 	)
 )-> cssRules->[0];

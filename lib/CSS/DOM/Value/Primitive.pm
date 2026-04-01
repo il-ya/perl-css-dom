@@ -17,7 +17,7 @@ use Exporter 5.57 'import';
 
 sub DOES {
  return 1 if $_[1] eq 'CSS::DOM::Value';
- goto &UNIVERSAL'DOES if defined &UNIVERSAL'DOES;
+ goto &UNIVERSAL::DOES if defined &UNIVERSAL::DOES;
 }
 
 use constant 1.03 our $_const = { # Don’t conflict with the superclass!
@@ -203,8 +203,8 @@ sub cssText {
 		}}
 	}
 	if(@_) {
-		require CSS'DOM'Exception,
-		die new CSS'DOM'Exception
+		require CSS::DOM::Exception,
+		die new CSS::DOM::Exception
 		  NO_MODIFICATION_ALLOWED_ERR,
 		 "Unowned value objects cannot be modified"
 		   unless my $owner = $self->[ownr];
@@ -213,15 +213,15 @@ sub cssText {
 		# deal with formats
 		if(my $format = $$self[form]) {
 			if(!our $parser) {
-				require CSS'DOM'PropertyParser;
+				require CSS::DOM::PropertyParser;
 				add_property{
-				 $parser = new CSS'DOM'PropertyParser
+				 $parser = new CSS::DOM::PropertyParser
 				} _=>our $prop_spec = {};
 			}
 			our $prop_spec->{format} = $format;
 			if(my @args = match { our $parser } _=> shift) {
-				require CSS'DOM'Value;
-				CSS'DOM'Value'_apply_args_to_self(
+				require CSS::DOM::Value;
+				CSS::DOM::Value::_apply_args_to_self(
 				 $self, $owner, $prop,
 				 @args, format => $format, 
 				);				
@@ -231,8 +231,8 @@ sub cssText {
 		# This is never reached, at least not when CSS::DOM’s mod-
 		# ules call the constructor:
 		elsif(!defined $prop) {
-			require CSS'DOM'Exception,
-			die new CSS'DOM'Exception
+			require CSS::DOM::Exception,
+			die new CSS::DOM::Exception
 			  NO_MODIFICATION_ALLOWED_ERR,
 			 ref($self) . " objects that do not know to which "
 			 ."property they belong cannot be modified"
@@ -263,8 +263,8 @@ sub cssText {
 			       $index+1..$length-1
 			      ),
 			    );
-			require CSS'DOM'Value;
-			CSS'DOM'Value'_load_if_necessary($arsg[1]);
+			require CSS::DOM::Value;
+			CSS::DOM::Value::_load_if_necessary($arsg[1]);
 			my $list = $arsg[1]->new(
 			 owner => $owner,
 			 property => $prop,
@@ -284,8 +284,8 @@ sub cssText {
 		 my @arsg
 		  = $owner->property_parser->match($prop, $_[0])
 		) {
-			require CSS'DOM'Value;
-			CSS'DOM'Value'_apply_args_to_self(
+			require CSS::DOM::Value;
+			CSS::DOM::Value::_apply_args_to_self(
 				 $self, $owner, $prop, @arsg
 			);
 		}
@@ -341,10 +341,10 @@ sub cssValueType { CSS::DOM::Value::CSS_PRIMITIVE_VALUE }
 sub primitiveType { shift->[type] }
 
 sub setFloatValue {
-  my ($self,$type,$val) = @'_;
+  my ($self,$type,$val) = @::_;
 
-  require CSS'DOM'Exception,
-  die new CSS'DOM'Exception INVALID_ACCESS_ERR, "Invalid value type"
+  require CSS::DOM::Exception,
+  die new CSS::DOM::Exception INVALID_ACCESS_ERR, "Invalid value type"
    if $type == CSS_UNKNOWN || $type == CSS_COUNTER
    || $type == CSS_RECT || $type == CSS_RGBCOLOR || $type == CSS_DIMENSION;
 
@@ -352,8 +352,8 @@ sub setFloatValue {
   # using this API.
   no warnings 'numeric';
   $self->cssText(my $css = _serialise($type, $val));
-  require CSS'DOM'Exception,
-  die new CSS'DOM'Exception INVALID_ACCESS_ERR, "Invalid value: $css"
+  require CSS::DOM::Exception,
+  die new CSS::DOM::Exception INVALID_ACCESS_ERR, "Invalid value: $css"
    if $self->cssText ne $css;
  _:
 }
@@ -364,8 +364,8 @@ sub getFloatValue {
  # There are more types that are numbers than are not, so we
  # invert our list.
  my $type = $self->[type];
- require CSS'DOM'Exception,
- die new CSS'DOM'Exception INVALID_ACCESS_ERR, "Not a numeric value"
+ require CSS::DOM::Exception,
+ die new CSS::DOM::Exception INVALID_ACCESS_ERR, "Not a numeric value"
   if $type == CSS_UNKNOWN || $type == CSS_STRING || $type == CSS_URI 
   || $type == CSS_IDENT || $type == CSS_ATTR || $type == CSS_COUNTER
   || $type == CSS_RECT || $type == CSS_RGBCOLOR;
@@ -380,8 +380,8 @@ sub getStringValue {
  my $self = shift;
 
  my $type = $self->[type];
- require CSS'DOM'Exception,
- die new CSS'DOM'Exception INVALID_ACCESS_ERR, "Not a string value"
+ require CSS::DOM::Exception,
+ die new CSS::DOM::Exception INVALID_ACCESS_ERR, "Not a string value"
   unless $type == CSS_STRING || $type == CSS_URI
       || $type == CSS_IDENT  || $type == CSS_ATTR;
 

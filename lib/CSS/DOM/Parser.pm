@@ -369,7 +369,7 @@ sub _parse_at_rule { for (shift) { for my $tokens (shift) {
 
 			$selector =~ s/s\z// and pop @selector;
 
-			require CSS'DOM'Rule;
+			require CSS::DOM::Rule;
 			(my $rule = new CSS::DOM::Rule $_[0]||())
 				->_set_tokens(
 					$selector,\@selector
@@ -413,7 +413,7 @@ sub _parse_at_rule { for (shift) { for my $tokens (shift) {
 		my ($types,@tokens) = ("\@$1",$at,splice @$tokens,0,$+[0]);
 		$types =~ /"/ and return; # ignore rules w/invalid strings
 		$types =~ s/s\z// and pop @tokens;
-		require CSS'DOM'Rule;
+		require CSS::DOM::Rule;
 		(my $rule = new CSS::DOM::Rule $_[0]||())
 			->_set_tokens(
 				$types, \@tokens

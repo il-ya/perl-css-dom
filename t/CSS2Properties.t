@@ -3,8 +3,8 @@
 use strict; use warnings;
 our $tests;
 BEGIN { ++$INC{'tests.pm'} }
-sub tests'VERSION { $tests += pop };
-sub tests'import { $tests += pop if @_ > 1 };
+sub tests::VERSION { $tests += pop };
+sub tests::import { $tests += pop if @_ > 1 };
 use Test::More;
 plan tests => $tests;
 

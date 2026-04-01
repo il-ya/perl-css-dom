@@ -3,7 +3,7 @@
 use strict; use warnings; no warnings qw 'utf8 parenthesis';
 our $tests;
 BEGIN { ++$INC{'tests.pm'} }
-sub tests'VERSION { $tests += pop };
+sub tests::VERSION { $tests += pop };
 use Test::More;
 plan tests => $tests;
 
@@ -37,7 +37,7 @@ for('_', 'a'..'z', 'A'.."Z", map(chr,0x80..0x100) ,"\x{2003}","\x{3000}"){
 {
 	my $style = CSS::DOM::Style::parse("--a: 65");
 	is $style->cssText, '', 'identifier can\'t begin with --';
-	$style = CSS'DOM'Style'parse"-0b:-0b";
+	$style = CSS::DOM::Style::parse"-0b:-0b";
 	is $style->cssText, '', 'nor with -0';
 }
 
@@ -179,7 +179,7 @@ use tests 3; # spaces and comments
 		"name:valu  /*eeeee "  
 	);
 	is $style->name, 'valu', 'another ws /**/ test';
-	$style = CSS'DOM'Style'parse( "name: /*\n*/valu");
+	$style = CSS::DOM::Style::parse( "name: /*\n*/valu");
 	is $style->name, 'valu', 'multiline comments';
 }
 
@@ -187,27 +187,27 @@ use tests 3; # spaces and comments
 
 use tests 6; # <!-- -->
 {
-	my $sheet = CSS'DOM'parse ' <!--{ name: value }--> @media print{}';
+	my $sheet = CSS::DOM::parse ' <!--{ name: value }--> @media print{}';
 	is join('',map cssText$_,cssRules$sheet),
 		"{ name: value }\n\@media print {\n}\n",
 		'ignored <!-- -->';
-	is CSS'DOM'parse"{}{name: <!-- value; n:v}" =>->
+	is CSS::DOM::parse"{}{name: <!-- value; n:v}" =>->
 		cssRules->length,
 	   1,
 		'invalid <!--';
 	ok $@, '$@ after invalid <!--';
-	is CSS'DOM'parse"{}{name: --> value; n:v}" =>->
+	is CSS::DOM::parse"{}{name: --> value; n:v}" =>->
 		cssRules->length,
 	   1,
 		'invalid -->';
 	ok $@, '$@ after invalid -->';
-	is CSS'DOM'Style'parse"name:'<!--value-->",->name,
+	is CSS::DOM::Style::parse"name:'<!--value-->",->name,
 		"'<!--value-->'", '<!-- --> in a string';
 }
 
 use tests 1; # miscellaneous tokens
 {
-	my $sheet = CSS'DOM'parse  '@foo ()[~=:,./+-]{[("\"';
+	my $sheet = CSS::DOM::parse  '@foo ()[~=:,./+-]{[("\"';
 	is $sheet->cssRules->[0]->cssText,
 		'@foo ()[~=:,./+-]{[("\"")]}'. "\n",
 		'miscellaneous tokens'

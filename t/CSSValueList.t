@@ -3,15 +3,15 @@
 use strict; use warnings;
 our $tests;
 BEGIN { ++$INC{'tests.pm'} }
-sub tests'VERSION { $tests += pop };
+sub tests::VERSION { $tests += pop };
 use Test::More;
 plan tests => $tests;
 
-use CSS'DOM'Constants ':primitive';
-use CSS'DOM'Value'List;
+use CSS::DOM::Constants ':primitive';
+use CSS::DOM::Value::List;
 
 use tests 1; # DOES
-ok +CSS'DOM'Value'List->DOES('CSS::DOM::Value'), 'DOES';
+ok +CSS::DOM::Value::List->DOES('CSS::DOM::Value'), 'DOES';
 
 my $v = new CSS'DOM'Value'List values => [
  [ type => CSS_STRING, value => 'sphed' ],

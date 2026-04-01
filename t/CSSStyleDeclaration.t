@@ -3,7 +3,7 @@
 use strict; use warnings; no warnings qw 'utf8 parenthesis regexp once qw';
 our $tests;
 BEGIN { ++$INC{'tests.pm'} }
-sub tests'VERSION { $tests += pop };
+sub tests::VERSION { $tests += pop };
 use Test::More;
 plan tests => $tests;
 
@@ -26,7 +26,7 @@ use tests 3; # first make sure we can use it without loading CSS::DOM
 	
 
 require CSS::DOM;
-my $ss = CSS::DOM'parse ('a{text-decoration: none} p { margin: 0 }');
+my $ss = CSS::DOM::parse ('a{text-decoration: none} p { margin: 0 }');
 my $rule = cssRules $ss ->[0];
 my $decl = $rule->style;
 

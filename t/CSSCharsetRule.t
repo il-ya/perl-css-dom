@@ -3,7 +3,7 @@
 use strict; use warnings;
 our $tests;
 BEGIN { ++$INC{'tests.pm'} }
-sub tests'VERSION { $tests += pop };
+sub tests::VERSION { $tests += pop };
 use Test::More;
 plan tests => $tests;
 
@@ -13,7 +13,7 @@ use_ok 'CSS::DOM::Rule::Charset',;
 
 require CSS::DOM;
 my $rule = (
-	my $ss = CSS::DOM'parse(
+	my $ss = CSS::DOM::parse(
 		'@charset "utf-8";'
 	)
 )-> cssRules->[0];

@@ -3,7 +3,7 @@
 use strict; use warnings;
 our $tests;
 BEGIN { ++$INC{'tests.pm'} }
-sub tests'VERSION { $tests += pop };
+sub tests::VERSION { $tests += pop };
 use Test::More;
 plan tests => $tests;
 
@@ -55,7 +55,7 @@ use tests 1; # (set_)href
 
 use tests 1; # title
 {
-	sub foo'attr { return shift->{+shift} }
+	sub foo::attr { return shift->{+shift} }
 	$ss->set_ownerNode(my $foo = bless {title => 'tilde'}, 'foo');
 	is $ss->title, 'tilde', 'title';
 }

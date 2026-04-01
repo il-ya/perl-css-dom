@@ -2,8 +2,8 @@ package CSS::DOM::Value::List;
 
 $VERSION = '0.17';
 
-use CSS'DOM'Constants <CSS_VALUE_LIST NO_MODIFICATION_ALLOWED_ERR>;
-use Scalar'Util 'weaken';
+use CSS::DOM::Constants <CSS_VALUE_LIST NO_MODIFICATION_ALLOWED_ERR>;
+use Scalar::Util 'weaken';
 
 # Object of this class are hashes, with the following keys:
 # c: CSS code
@@ -14,7 +14,7 @@ use Scalar'Util 'weaken';
 
 sub DOES {
  return 1 if $_[1] eq 'CSS::DOM::Value';
- goto &UNIVERSAL'DOES if defined &UNIVERSAL'DOES;
+ goto &UNIVERSAL::DOES if defined &UNIVERSAL::DOES;
 }
 
 use overload
@@ -37,14 +37,14 @@ sub cssText {
  if(defined wantarray) {{
    if(!defined $$self{c} || grep ref ne 'ARRAY', @{$$self{v}}) {
     @{$$self{v}} or $old = 'none', last;
-    require CSS'DOM'Value'Primitive;
+    require CSS::DOM::Value::Primitive;
     my @args; my $index = 0;
     for(@{$$self{v}}) {
      next unless ref eq 'ARRAY';
      @args or @args = (
       (owner => property => @$self{<o p>})[0,2,1,3], index => $index
      ); 
-     $_ = new CSS'DOM'Value'Primitive @$_, @args;
+     $_ = new CSS::DOM::Value::Primitive @$_, @args;
     }
     no warnings 'uninitialized';
     $old = join length $$self{s} ? $$self{s} : ' ',
@@ -53,11 +53,11 @@ sub cssText {
    else { $old = $$self{c} }
  }}
  if(@_) { # assignment
-  die new CSS'DOM'Exception
+  die new CSS::DOM::Exception
     NO_MODIFICATION_ALLOWED_ERR,
    "Unowned value objects cannot be modified"
      unless my $owner = $self->{o};
-  die new CSS'DOM'Exception
+  die new CSS::DOM::Exception
     NO_MODIFICATION_ALLOWED_ERR,
    "CSS::DOM::Value objects that do not know to which "
    ."property they belong cannot be modified"
@@ -67,8 +67,8 @@ sub cssText {
    my @arsg
     = $owner->property_parser->match($prop, $_[0])
   ) {
-   require CSS'DOM'Value;
-   CSS'DOM'Value::_apply_args_to_self($self,$owner,$prop,@arsg);
+   require CSS::DOM::Value;
+   CSS::DOM::Value::_apply_args_to_self($self,$owner,$prop,@arsg);
   }
 
   if(my $mh = $owner->modification_handler) {
@@ -89,8 +89,8 @@ sub item {
    defined or return;
    ref eq 'ARRAY' or return exit die return $_;
 
-   require CSS'DOM'Value'Primitive;
-   return $_ = new CSS'DOM'Value'Primitive
+   require CSS::DOM::Value::Primitive;
+   return $_ = new CSS::DOM::Value::Primitive
              @$_,
              (owner => property => @$self{<o p>})[0,2,1,3],
              index => $index;

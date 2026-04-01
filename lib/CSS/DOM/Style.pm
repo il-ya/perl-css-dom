@@ -171,9 +171,9 @@ sub setProperty {
 	# short-circuit for the common case
 	length $value or $self->removeProperty($name),return;
 
-	require CSS'DOM'Parser;
-	my @tokens = eval { CSS'DOM'Parser'tokenise_value($value); }
-		or die CSS::DOM'Exception->new( SYNTAX_ERR, $@);
+	require CSS::DOM::Parser;
+	my @tokens = eval { CSS::DOM::Parser::tokenise_value($value); }
+		or die CSS::DOM::Exception->new( SYNTAX_ERR, $@);
 
 	# check for whitespace/comment assignment
 	$tokens[0] =~ /^s+\z/ and $self->removeProperty($name),return;

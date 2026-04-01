@@ -93,8 +93,8 @@ sub _selector_matches { # ~~~ Does this work with initial space in the selector?
 
  # tokenise if necessary
  unless(ref $self->[selc]) {
-  require CSS'DOM'Parser;
-  $self->[selc] = [ CSS'DOM'tokenise($self->[selc]) ];
+  require CSS::DOM::Parser;
+  $self->[selc] = [ CSS::DOM::tokenise($self->[selc]) ];
  }
 
  # parse selector tokens if necessary
@@ -130,7 +130,7 @@ sub _selector_matches { # ~~~ Does this work with initial space in the selector?
 
      # ids:
      if($types =~ s/^#//) {
-      push @subsel, '#', CSS'DOM'Util'unescape( substr shift @tokens, 1 ),
+      push @subsel, '#', CSS::DOM::Util::unescape( substr shift @tokens, 1 ),
        undef;
      }
 
@@ -138,12 +138,12 @@ sub _selector_matches { # ~~~ Does this work with initial space in the selector?
      elsif($types =~ /^di/ && $tokens[0] eq '.') {
       $types =~ s/^..//; shift @tokens;
       push @subsel, '~', 'class',
-       CSS'DOM'Util'unescape( shift @tokens );
+       CSS::DOM::Util::unescape( shift @tokens );
      }
 
      # pseudo-elems and classes
      elsif($types =~ s/^(::?)i//) {
-      push @subsel, $1,lc CSS'DOM'Util'unescape($tokens[length $1]), undef;
+      push @subsel, $1,lc CSS::DOM::Util::unescape($tokens[length $1]), undef;
       splice @tokens, 0, $+[0];
      }
 
@@ -151,14 +151,14 @@ sub _selector_matches { # ~~~ Does this work with initial space in the selector?
      elsif($types =~ s/^:fi\)//) {
       push @subsel,
        ':',
-       lc CSS'DOM'Util'unescape(substr $tokens[1], 0, -1),
-       lc CSS'DOM'Util'unescape($tokens[2]);
+       lc CSS::DOM::Util::unescape(substr $tokens[1], 0, -1),
+       lc CSS::DOM::Util::unescape($tokens[2]);
       splice @tokens, 0, 4;
      }
 
      # [attr]
      elsif($types =~ s/^\[i]//) {
-      push @subsel, '=', lc CSS'DOM'Util'unescape($tokens[1]), undef;
+      push @subsel, '=', lc CSS::DOM::Util::unescape($tokens[1]), undef;
       splice @tokens, 0, 3;
      }
 
@@ -166,16 +166,16 @@ sub _selector_matches { # ~~~ Does this work with initial space in the selector?
      elsif($types =~ /^\[id']/ && $tokens[2] eq '=') {
       $types =~ s/^.{5}//;
       push @subsel, '=',
-       lc CSS'DOM'Util'unescape($tokens[1]),
-       CSS'DOM'Util'unescape_str($tokens[3]);
+       lc CSS::DOM::Util::unescape($tokens[1]),
+       CSS::DOM::Util::unescape_str($tokens[3]);
       splice @tokens, 0, 5;
      }
 
      # [attr~='value'], [attr|='value']
      elsif($types =~ s/^\[i[~|]']//) {
       push @subsel, $tokens[2],
-       lc CSS'DOM'Util'unescape($tokens[1]),
-       CSS'DOM'Util'unescape_str($tokens[3]);
+       lc CSS::DOM::Util::unescape($tokens[1]),
+       CSS::DOM::Util::unescape_str($tokens[3]);
       splice @tokens, 0, 5;
      }
 

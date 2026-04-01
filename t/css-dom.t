@@ -3,7 +3,7 @@
 use strict; use warnings;
 our $tests;
 BEGIN { ++$INC{'tests.pm'} }
-sub tests'VERSION { $tests += pop };
+sub tests::VERSION { $tests += pop };
 use Test::More;
 plan tests => $tests;
 
@@ -28,7 +28,7 @@ use tests 1; # compute_style
  local $SIG{__WARN__} = sub { $w .= shift };
  require CSS::DOM::Style;
  my $elem = bless{
-  style => CSS'DOM'Style'parse('color:red'), tagName => 'p',
+  style => CSS::DOM::Style::parse('color:red'), tagName => 'p',
  }, MyElem=>;
  CSS::DOM::compute_style(element => $elem);
  is $w, undef, 'no warnings for style belonging to element itself';

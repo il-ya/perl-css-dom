@@ -3,7 +3,7 @@
 use strict; use warnings; no warnings qw 'utf8 parenthesis regexp once qw';
 our $tests;
 BEGIN { ++$INC{'tests.pm'} }
-sub tests'VERSION { $tests += pop };
+sub tests::VERSION { $tests += pop };
 use Test::More;
 plan tests => $tests;
 
@@ -18,11 +18,11 @@ isa_ok my $parser = CSS::DOM::PropertyParser->new,
 
 use tests 4; # clone
 my $clone = (my $css21 = $CSS::DOM::PropertyParser::CSS21)->clone;
-isn't $clone, $css21, 'clone at the first level';
-isn't $clone->get_property('background-position'),
+isnt $clone, $css21, 'clone at the first level';
+isnt $clone->get_property('background-position'),
       $css21->get_property('background-position'),
  'clone clones individual property specs';
-isn't
+isnt
  $clone->get_property('border-color')->{properties}
   {'border-top-color'},
  $css21->get_property('border-color')->{properties}
@@ -1320,11 +1320,11 @@ use tests 2; # parsing colours
     format => '<colour>+',
    },
  );
- my $s = CSS'DOM'Style'parse(
+ my $s = CSS::DOM::Style::parse(
   "colours: rgb(0,0,0) rgb(1,1,1)", 
    property_parser => $p
  );
- use CSS'DOM'Constants 'CSS_CUSTOM';
+ use CSS::DOM::Constants 'CSS_CUSTOM';
  is $s->getPropertyCSSValue('colours')->cssValueType, CSS_CUSTOM,
    'quantified <colour>s';
  $p->add_property(
@@ -1353,11 +1353,11 @@ use tests 1; # backtracking with list properties
     list   => 1,
    },
  );
- my $s = CSS'DOM'Style'parse(
+ my $s = CSS::DOM::Style::parse(
   "foo: foo, foo", 
    property_parser => $p
  );
- use CSS'DOM'Constants 'CSS_VALUE_LIST';
+ use CSS::DOM::Constants 'CSS_VALUE_LIST';
  is_deeply [map cssText $_, @{$s->getPropertyCSSValue('foo')}],[('foo')x2],
    'backtracking does not preserve existing captures';
 }

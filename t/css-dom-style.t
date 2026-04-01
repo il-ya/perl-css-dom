@@ -6,13 +6,13 @@
 use strict; use warnings;
 our $tests;
 BEGIN { ++$INC{'tests.pm'} }
-sub tests'VERSION { $tests += pop };
+sub tests::VERSION { $tests += pop };
 use Test::More;
 plan tests => $tests;
 
 use tests 4; # modification_handler
 require CSS::DOM::Style;
-my $style = CSS::DOM::Style'parse('margin-top: 2px');
+my $style = CSS::DOM::Style::parse('margin-top: 2px');
 $style->modification_handler(sub { ++$}; ${{} .= shift});
 $style->cssText('margin-bottom: 600%');
 is $}, 1, 'cssText triggers mod hander';

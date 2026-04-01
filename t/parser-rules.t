@@ -8,7 +8,7 @@
 use strict; use warnings; no warnings qw 'utf8 parenthesis';
 our $tests;
 BEGIN { ++$INC{'tests.pm'} }
-sub tests'VERSION { $tests += pop };
+sub tests::VERSION { $tests += pop };
 use Test::More;
 plan tests => $tests;
 
@@ -35,7 +35,7 @@ use tests 2; # miscellaneous CSS::DOM::parse stuff
 
 use tests 7; # <!-- -->
 {
-	my $sheet = CSS'DOM'parse '
+	my $sheet = CSS::DOM::parse '
 		<!-- /* --> /* /**/
 		@at-rule {/*<!--*/ } <!--
 		-->
@@ -46,9 +46,9 @@ use tests 7; # <!-- -->
 		'@at-rule {/*<!--*/ }' . "\n" .
 		"{ style: rule }\n",
 		'<!-- -->';
-	CSS'DOM'parse 'a { --> }';
+	CSS::DOM::parse 'a { --> }';
 	ok $@, 'invalid -->';
-	CSS'DOM'parse 'a { <!-- }';
+	CSS::DOM::parse 'a { <!-- }';
 	ok $@, 'invalid <!--';
 	ok !eval{$sheet->insertRule('--> a { }');1},
 		'invalid --> before statement';
@@ -79,30 +79,30 @@ use tests 5; # single statement parser
 
 use tests 9; # styledecl parser
 {
-	my $style = CSS'DOM'Style'parse  ' foo : bar ';
+	my $style = CSS::DOM::Style::parse  ' foo : bar ';
 	is $style->cssText, 'foo: bar', 'style parser';
-	CSS'DOM'Style'parse 'foo: bar}';
+	CSS::DOM::Style::parse 'foo: bar}';
 	ok $@, 'style parser chokes on }';
-	is CSS'DOM'Style'parse  ' ; ;;;;;foo : bar ;;;; ; ',->cssText,
+	is CSS::DOM::Style::parse  ' ; ;;;;;foo : bar ;;;; ; ',->cssText,
 		'foo: bar', 'style wit extra semicolons';
-	is CSS'DOM'Style'parse  'foo:bar',->cssText,
+	is CSS::DOM::Style::parse  'foo:bar',->cssText,
 		'foo: bar', 'style with no space';
-	is CSS'DOM'Style'parse  'foo:bar;;;baz:bonk;;',->cssText,
+	is CSS::DOM::Style::parse  'foo:bar;;;baz:bonk;;',->cssText,
 		'foo: bar; baz: bonk',
 		'style with no space & extra semicolons';
-	is CSS'DOM'Style'parse  'foo:bar;;;!baz:bonk;;',->cssText,
+	is CSS::DOM::Style::parse  'foo:bar;;;!baz:bonk;;',->cssText,
 		'foo: bar',
 		'style with delimiter+ident for property name';
-	is CSS'DOM'Style'parse  '\70\41 dding:0;;;;;',->cssText,
+	is CSS::DOM::Style::parse  '\70\41 dding:0;;;;;',->cssText,
 		'padding: 0',
 		'style with escaped property name';
 
-	is CSS'DOM'Style'parse '\a\z\A\Z\)\a a :bar',
+	is CSS::DOM::Style::parse '\a\z\A\Z\)\a a :bar',
 		->getPropertyValue("\nz\nZ)\na"), 'bar',
 		'style with both kinds of ident escapes';
 
 	{ package Phoo; use overload '""'=>sub{'foo:bar'}}
-	is CSS'DOM'Style'parse(bless [], 'Phoo')->cssText, 'foo: bar',
+	is CSS::DOM::Style::parse(bless [], 'Phoo')->cssText, 'foo: bar',
 		'::Style::parse\'s force stringification';
 }
 
@@ -464,7 +464,7 @@ use tests 121; # @media
 	is $rule->cssText, "\@meDIa { }\n",
 		'serialised empty unclosed fake @meDIa rule w/ws';
 
-	$sheet = CSS'DOM'parse '
+	$sheet = CSS::DOM::parse '
 		@media print { a { color: blue } "stuff"}
 		td { padding: 0 }
 	';
@@ -605,7 +605,7 @@ use tests 6; # ruselet pasrer
 
 use tests 1; # invaldi strings
 {
-	my $sheet = CSS'DOM'parse q*
+	my $sheet = CSS::DOM::parse q*
 	      p { 
 	        color: green; 
 	        font-family: 'Courier New Times 
@@ -634,44 +634,44 @@ use tests 1; # invaldi strings
 
 use tests 10; # invalid closing brackets
 {
-	is CSS'DOM'parse q" @eotetet ]" =>-> cssRules->length,0,
+	is CSS::DOM::parse q" @eotetet ]" =>-> cssRules->length,0,
 		'invalid closing bracket in unknown rule';
 	ok $@, '$@ is set by invalid closing bracket in unknown rule';
-	is CSS'DOM'parse q" @media { ]" =>-> cssRules->length, 0,
+	is CSS::DOM::parse q" @media { ]" =>-> cssRules->length, 0,
 		'invalid closing bracket in media rule';
 	ok $@, '$@ is set by invalid closing bracket in media rule';
-	is CSS'DOM'parse q" @page { ]" =>-> cssRules->length, 0,
+	is CSS::DOM::parse q" @page { ]" =>-> cssRules->length, 0,
 		'invalid closing bracket in page rule';
 	ok $@, '$@ is set by invalid closing bracket in page rule';
-	is CSS'DOM'parse q" page ( ]" =>-> cssRules->length, 0,
+	is CSS::DOM::parse q" page ( ]" =>-> cssRules->length, 0,
 		'invalid closing bracket in selector';
 	ok $@, '$@ is set by invalid closing bracket in selector';
-	is CSS'DOM'parse q" a {  (}" =>-> cssRules->length, 0,
+	is CSS::DOM::parse q" a {  (}" =>-> cssRules->length, 0,
 		'invalid closing bracket in style declaration';
 	ok $@, '$@ is set by invalid closing bracket in selector';
 }
 
 use tests 14; # invalid [\@;]
 {
-	is CSS'DOM'parse q" @eotetet @aa ]" =>-> cssRules->length,0,
+	is CSS::DOM::parse q" @eotetet @aa ]" =>-> cssRules->length,0,
 		'invalid @ in unknown rule';
 	ok $@, '$@ is set by invalid @ in unknown rule';
-	is CSS'DOM'parse q" @eotetet aa (;" =>-> cssRules->length,0,
+	is CSS::DOM::parse q" @eotetet aa (;" =>-> cssRules->length,0,
 		'invalid ; in unknown rule';
 	ok $@, '$@ is set by invalid ; in unknown rule';
-	is CSS'DOM'parse q" @media {(; { " =>-> cssRules->length,0,
+	is CSS::DOM::parse q" @media {(; { " =>-> cssRules->length,0,
 		'invalid ; in media rule';
 	ok $@, '$@ is set by invalid ; in media rule';
-	is CSS'DOM'parse q" @page { (;fooo" =>-> cssRules->length,0,
+	is CSS::DOM::parse q" @page { (;fooo" =>-> cssRules->length,0,
 		'invalid ; in page rule';
 	ok $@, '$@ is set by invalid ; in page rule';
-	is CSS'DOM'parse q" page @oo " =>-> cssRules->length,0,
+	is CSS::DOM::parse q" page @oo " =>-> cssRules->length,0,
 		'invalid @ in selector';
 	ok $@, '$@ is set by invalid @ in selector';
-	is CSS'DOM'parse q" page ;( " =>-> cssRules->length,0,
+	is CSS::DOM::parse q" page ;( " =>-> cssRules->length,0,
 		'invalid ; in selector';
 	ok $@, '$@ is set by invalid ; in selector';
-	is CSS'DOM'parse q" a { ( ;( " =>-> cssRules->length,0,
+	is CSS::DOM::parse q" a { ( ;( " =>-> cssRules->length,0,
 		'invalid ; in style declaration';
 	ok $@, '$@ is set by invalid ; in style declaration';
 }

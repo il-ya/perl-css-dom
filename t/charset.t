@@ -3,7 +3,7 @@
 use strict; use warnings; no warnings qw 'utf8 parenthesis';
 our $tests;
 BEGIN { ++$INC{'tests.pm'} }
-sub tests'VERSION { $tests += pop };
+sub tests::VERSION { $tests += pop };
 use Test::More;
 plan tests => $tests;
 

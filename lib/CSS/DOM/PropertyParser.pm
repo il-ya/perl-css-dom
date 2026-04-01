@@ -6,8 +6,8 @@ use warnings; no warnings qw 'utf8 parenthesis';
 use strict;
 
 use constant 1.03 (); # multiple
-use CSS::DOM'Constants ':primitive', ':value';
-use CSS'DOM'Util<unescape unescape_str unescape_url>;
+use CSS::DOM::Constants ':primitive', ':value';
+use CSS::DOM::Util<unescape unescape_str unescape_url>;
 
 use constant old_perl => $] < 5.01;
 { no strict 'refs'; delete ${__PACKAGE__.'::'}{old_perl} }
@@ -19,7 +19,7 @@ use constant old_perl => $] < 5.01;
 use constant naughty_perl => 0+$] eq 5.01;
 { no strict 'refs'; delete ${__PACKAGE__.'::'}{naughty_perl} }
 
-*s2c = *CSS'DOM'Constants'SuffixToConst;
+*s2c = *CSS::DOM::Constants::SuffixToConst;
 our %s2c;
 
 our %compiled; # compiled formats
@@ -60,7 +60,7 @@ sub clone {
 # exists &dclone or require Storable, "Storable"->import('dclone');
 # return dclone($_[0]);
  require Clone;
- return Clone'clone($_[0]);
+ return Clone::clone($_[0]);
 }
 
 #  Declare the variables that the re-evals use. Some nasty hacker went and
@@ -202,7 +202,7 @@ sub _make_arg_list {
  my($stypes,$stokens) = _space_out($types, $tokens);
  my $css = join "", @$stokens;
  if(@_ == 1) { # list property
-  my $list = shift @'_;
+  my $list = shift @::_;
   my $sep = @$list <= 1 ? '' : do {
    my $range_start = $$list[0][4];
    my $range_end = $$list[1][4] - length($$list[1][4]) - 1;
@@ -301,7 +301,7 @@ sub _make_arg_list {
 
 sub _space_out {
  my($types,$tokens) = @_;
-Carp'cluck() if ref $tokens ne 'ARRAY';
+Carp::cluck() if ref $tokens ne 'ARRAY';
  $tokens = [@$tokens];
  my @posses;
  $types =~ s/(?<=[^(f])(?![),]|\z)/
@@ -328,7 +328,7 @@ sub _prep_val {
  }
  else {
   require CSS::DOM::Parser;
-  ($types, $tokens) = CSS::DOM::Parser'tokenise($_[0]);
+  ($types, $tokens) = CSS::DOM::Parser::tokenise($_[0]);
  }
 
  # strip out all whitespace tokens

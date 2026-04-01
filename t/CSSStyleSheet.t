@@ -3,7 +3,7 @@
 use strict; use warnings;
 our $tests;
 BEGIN { ++$INC{'tests.pm'} }
-sub tests'VERSION { $tests += pop };
+sub tests::VERSION { $tests += pop };
 use Test::More;
 plan tests => $tests;
 
@@ -30,7 +30,7 @@ use tests 3; # (_set_)ownerRule
 
 use tests 2; # cssRules
 {
-	$ss = CSS::DOM'parse( 'a{text-decoration: none} p { margin: 0 }');
+	$ss = CSS::DOM::parse( 'a{text-decoration: none} p { margin: 0 }');
 	is +()=$ss->cssRules, 2, 'cssRules in list context';
 	isa_ok my $rules = cssRules $ss, 'CSS::DOM::RuleList',
 		'cssRules in scalar context';
@@ -38,7 +38,7 @@ use tests 2; # cssRules
 
 use tests 11; # insertRule
 {
-	$ss = CSS::DOM'parse ('a{text-decoration: none} p { margin: 0 }');
+	$ss = CSS::DOM::parse ('a{text-decoration: none} p { margin: 0 }');
 	
 	is $ss->insertRule('b { font-weight: bold }', 0), 0,
 		'retval of insertRule';
@@ -70,7 +70,7 @@ use tests 11; # insertRule
 
 use tests 4; # deleteRule
 {
-	$ss = CSS::DOM'parse ('a{text-decoration: none} p { margin: 0 }
+	$ss = CSS::DOM::parse ('a{text-decoration: none} p { margin: 0 }
 		i {}');
 	is +()=$ss->deleteRule(1), 0, 'retval of deleteRule';
 	is_deeply [map $_->selectorText, $ss->cssRules], [qw/ a i /],

@@ -7,9 +7,9 @@ use strict;
 
 use Carp;
 use CSS::DOM::Constants;
-use CSS'DOM'Exception 'NO_MODIFICATION_ALLOWED_ERR';
+use CSS::DOM::Exception 'NO_MODIFICATION_ALLOWED_ERR';
 use Exporter 5.57 'import';
-use Scalar'Util < weaken reftype >;
+use Scalar::Util < weaken reftype >;
 
 use constant 1.03 our $_const = {
     type => 0,
@@ -46,11 +46,11 @@ sub cssText {
 		? $self->[valu] : 'inherit'
 	 if defined wantarray;
 	if(@_) {
-		die new CSS'DOM'Exception
+		die new CSS::DOM::Exception
 		  NO_MODIFICATION_ALLOWED_ERR,
 		 "Unowned value objects cannot be modified"
 		   unless my $owner = $self->[ownr];
-		die new CSS'DOM'Exception
+		die new CSS::DOM::Exception
 		  NO_MODIFICATION_ALLOWED_ERR,
 		 "CSS::DOM::Value objects that do not know to which "
 		 ."property they belong cannot be modified"

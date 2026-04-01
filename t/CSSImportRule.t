@@ -3,7 +3,7 @@
 use strict; use warnings;
 our $tests;
 BEGIN { ++$INC{'tests.pm'} }
-sub tests'VERSION { $tests += pop };
+sub tests::VERSION { $tests += pop };
 use Test::More;
 plan tests => $tests;
 
@@ -15,7 +15,7 @@ use_ok 'CSS::DOM::Rule::Import';
 
 require CSS::DOM;
 my $rule = (
-	my $ss = CSS::DOM'parse(
+	my $ss = CSS::DOM::parse(
 		'@import "foo.css" tv, screen'
 	)
 )-> cssRules->[0];
@@ -95,7 +95,7 @@ use tests 5; # styleSheet
 		'foo.css' => '@import "bar.css"',
 		'bar.css' => 'a { color: blue }',
 	);
-	is CSS'DOM'parse('@import "foo.css',url_fetcher=>sub{$urls{$_[0]}})
+	is CSS::DOM::parse('@import "foo.css',url_fetcher=>sub{$urls{$_[0]}})
 		->cssRules->[0]->styleSheet
 		->cssRules->[0]->styleSheet
 		->cssRules->[0]->style->color,

@@ -46,7 +46,7 @@ sub _parse { # This method parses the code passed to it and checks to see
              # the rule data from the new rule.
 	my $self = shift;
 	require CSS::DOM::Parser;
-	my $new_rule  =  CSS::DOM::Parser'parse_statement(shift)
+	my $new_rule  =  CSS::DOM::Parser::parse_statement(shift)
 		|| die CSS::DOM::Exception->new(SYNTAX_ERR, $@);
 
 	ref $new_rule eq ref $self or die CSS::DOM::Exception->new(

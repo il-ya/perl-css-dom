@@ -3,7 +3,7 @@
 use strict; use warnings;
 our $tests;
 BEGIN { ++$INC{'tests.pm'} }
-sub tests'VERSION { $tests += pop };
+sub tests::VERSION { $tests += pop };
 use Test::More;
 plan tests => $tests;
 
@@ -15,7 +15,7 @@ use_ok 'CSS::DOM::Rule::Media';
 
 require CSS::DOM;
 my $rule = (
-	my $ss = CSS::DOM'parse(
+	my $ss = CSS::DOM::parse(
 		'@media print { body { background: none } }'
 	)
 )-> cssRules->[0];

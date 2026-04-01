@@ -4,8 +4,8 @@ use strict; use warnings;
 no warnings<utf8 parenthesis regexp once qw bareword syntax>;
 our $tests;
 BEGIN { ++$INC{'tests.pm'} }
-sub tests'VERSION { $tests += pop };
-sub tests'import  { $tests += pop if @_ > 1 };
+sub tests::VERSION { $tests += pop };
+sub tests::import  { $tests += pop if @_ > 1 };
 use Test::More;
 plan tests => $tests;
 
@@ -441,9 +441,9 @@ for(CSS::DOM::Value::Primitive->new(
 # ------------------------------------------
 # Tests for setFloatValue and setStringValue
 
-use CSS'DOM'Style;
+use CSS::DOM::Style;
 require CSS::DOM::PropertyParser;
-my $s = new CSS'DOM'Style
+my $s = new CSS::DOM::Style
  property_parser => $CSS::DOM::PropertyParser::Default;
 
 for my $meth ('setFloatValue' ,'setStringValue'){

@@ -45,7 +45,7 @@ sub cssText {
 sub href {
 	my $self =shift;
 	$self->[hrfe] ||= do {
-		require CSS'DOM'Parser;
+		require CSS::DOM::Parser;
 		if($self->[urlt][00] eq 'u') {
 			# ~~~ I probably ought to put things like this in a
 			#     Parser::token_val function.
@@ -53,10 +53,10 @@ sub href {
 			$url =~ s/^url\([ \t\r\n\f]*//;
 			$url =~ s/[ \t\r\n\f]*\)\z//;
 			$url =~ s/^['"]// and chop $url;
-			CSS'DOM'Parser'unescape($url);
+			CSS::DOM::Parser::unescape($url);
 		}
 		else {
-			CSS'DOM'Parser'unescape(
+			CSS::DOM::Parser::unescape(
 				substr $$self[urlt][1], 1, -1
 			)
 		}

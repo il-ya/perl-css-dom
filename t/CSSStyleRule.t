@@ -3,7 +3,7 @@
 use strict; use warnings;
 our $tests;
 BEGIN { ++$INC{'tests.pm'} }
-sub tests'VERSION { $tests += pop };
+sub tests::VERSION { $tests += pop };
 use Test::More;
 plan tests => $tests;
 
@@ -14,7 +14,7 @@ use_ok 'CSS::DOM::Rule::Style',;
 
 require CSS::DOM;
 my $rule = (
-	my $ss = CSS::DOM'parse('a{text-decoration: none} p { margin: 0 }')
+	my $ss = CSS::DOM::parse('a{text-decoration: none} p { margin: 0 }')
 )-> cssRules->[0];
 
 use tests 1; # isa
